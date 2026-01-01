@@ -11,6 +11,12 @@ export default function Home() {
     const [selectedTicket, setSelectedTicket] = useState<TicketTier | null>(null);
     const [showModal, setShowModal] = useState(false);
     const [showHelpModal, setShowHelpModal] = useState(false);
+    const [timeRemaining, setTimeRemaining] = useState({
+        days: 0,
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
+    });
 
     useEffect(() => {
         // In production, fetch configuration from your event creation app
@@ -22,6 +28,28 @@ export default function Home() {
         //   }
         // };
         // loadConfig();
+
+        // Countdown timer
+        const eventDate = new Date("2026-01-20T19:00:00-05:00").getTime(); // 7:00 PM EST
+
+        const updateCountdown = () => {
+            const now = new Date().getTime();
+            const distance = eventDate - now;
+
+            if (distance > 0) {
+                setTimeRemaining({
+                    days: Math.floor(distance / (1000 * 60 * 60 * 24)),
+                    hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+                    minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+                    seconds: Math.floor((distance % (1000 * 60)) / 1000),
+                });
+            }
+        };
+
+        updateCountdown();
+        const interval = setInterval(updateCountdown, 1000);
+
+        return () => clearInterval(interval);
     }, []);
 
     const handleBuyTicket = (tier: TicketTier) => {
@@ -207,6 +235,55 @@ export default function Home() {
                         {config.event.description}
                     </p>
                 </div>
+
+                {/* Countdown Timer */}
+                {timeRemaining.days > 0 || timeRemaining.hours > 0 || timeRemaining.minutes > 0 || timeRemaining.seconds > 0 ? (
+                    <div className="flex justify-center mb-8">
+                        <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 backdrop-blur-sm border border-purple-500/30 rounded-2xl p-6 hover:border-purple-500/50 transition-all">
+                            <div className="text-center mb-3">
+                                <p className="text-sm text-purple-300 font-medium tracking-wide">Event starts in</p>
+                            </div>
+                            <div className="flex gap-4 items-center justify-center">
+                                {timeRemaining.days > 0 && (
+                                    <div className="text-center">
+                                        <div className="bg-white/5 backdrop-blur-md rounded-xl px-4 py-3 min-w-[70px] border border-purple-500/20">
+                                            <div className="text-3xl font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
+                                                {timeRemaining.days}
+                                            </div>
+                                            <div className="text-xs text-gray-400 mt-1">days</div>
+                                        </div>
+                                    </div>
+                                )}
+                                <div className="text-center">
+                                    <div className="bg-white/5 backdrop-blur-md rounded-xl px-4 py-3 min-w-[70px] border border-purple-500/20">
+                                        <div className="text-3xl font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
+                                            {timeRemaining.hours.toString().padStart(2, '0')}
+                                        </div>
+                                        <div className="text-xs text-gray-400 mt-1">hours</div>
+                                    </div>
+                                </div>
+                                <div className="text-2xl text-purple-400 font-bold">:</div>
+                                <div className="text-center">
+                                    <div className="bg-white/5 backdrop-blur-md rounded-xl px-4 py-3 min-w-[70px] border border-purple-500/20">
+                                        <div className="text-3xl font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
+                                            {timeRemaining.minutes.toString().padStart(2, '0')}
+                                        </div>
+                                        <div className="text-xs text-gray-400 mt-1">minutes</div>
+                                    </div>
+                                </div>
+                                <div className="text-2xl text-purple-400 font-bold">:</div>
+                                <div className="text-center">
+                                    <div className="bg-white/5 backdrop-blur-md rounded-xl px-4 py-3 min-w-[70px] border border-purple-500/20">
+                                        <div className="text-3xl font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent animate-pulse">
+                                            {timeRemaining.seconds.toString().padStart(2, '0')}
+                                        </div>
+                                        <div className="text-xs text-gray-400 mt-1">seconds</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                ) : null}
 
                 {/* Ticket Section */}
                 <div className="mb-8">
