@@ -48,12 +48,12 @@ export default function Home() {
             <header className="sticky top-0 z-50 bg-black/30 backdrop-blur-md border-b border-purple-500/20">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                     <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-2">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 32 32"
                                 fill="none"
-                                className="h-10 w-10"
+                                className="h-8 w-8 flex-shrink-0"
                             >
                                 <defs>
                                     <linearGradient id="vybes-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -83,9 +83,9 @@ export default function Home() {
                                     fill="url(#vybes-gradient)"
                                 />
                             </svg>
-                            <h1 className="text-2xl font-bold text-white">
-                                Vybes
-                            </h1>
+                            <span className="text-2xl font-bold tracking-tight leading-none text-white">
+                                vybes
+                            </span>
                         </div>
                         <button
                             onClick={() => setShowHelpModal(true)}
