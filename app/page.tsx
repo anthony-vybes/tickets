@@ -564,109 +564,111 @@ export default function Home() {
                     onClick={() => setShowHelpModal(false)}
                 >
                     <div
-                        className="absolute bottom-0 left-0 right-0 bg-slate-900 border-t border-purple-500/30 rounded-t-3xl p-6 max-h-[80vh] overflow-y-auto"
+                        className="absolute bottom-0 left-0 right-0 bg-slate-900 border-t border-purple-500/30 rounded-t-3xl max-h-[80vh] flex flex-col"
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <div className="max-w-2xl mx-auto">
-                            <div className="flex items-center justify-between mb-6">
-                                <h3 className="text-2xl font-bold text-white">
-                                    How to Buy a Ticket
-                                </h3>
-                                <button
-                                    onClick={() => setShowHelpModal(false)}
-                                    className="text-gray-400 hover:text-white"
-                                >
-                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                </button>
-                            </div>
-
-                            <div className="space-y-6">
-                                {/* Tip 1 */}
-                                <div className="flex gap-4">
-                                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center text-white font-bold">
-                                        1
-                                    </div>
-                                    <div>
-                                        <h4 className="text-lg font-semibold text-white mb-2">
-                                            Choose Your Ticket
-                                        </h4>
-                                        <p className="text-gray-300 text-sm leading-relaxed">
-                                            Select between Access (live stream only) or Premium (includes replay and highlighted chat) based on your needs. Premium gives you 48 hours to watch the replay after the event ends.
-                                        </p>
-                                    </div>
-                                </div>
-
-                                {/* Tip 2 */}
-                                <div className="flex gap-4">
-                                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center text-white font-bold">
-                                        2
-                                    </div>
-                                    <div>
-                                        <h4 className="text-lg font-semibold text-white mb-2">
-                                            Complete Payment
-                                        </h4>
-                                        <p className="text-gray-300 text-sm leading-relaxed">
-                                            After clicking the buy button, you&apos;ll be redirected to our secure payment processor. We accept all major credit cards and payment methods.
-                                        </p>
-                                    </div>
-                                </div>
-
-                                {/* Tip 3 */}
-                                <div className="flex gap-4">
-                                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center text-white font-bold">
-                                        3
-                                    </div>
-                                    <div>
-                                        <h4 className="text-lg font-semibold text-white mb-2">
-                                            Access Your Event
-                                        </h4>
-                                        <p className="text-gray-300 text-sm leading-relaxed">
-                                            After purchase, you&apos;ll receive a confirmation email with your ticket and stream access link. Save this link to join the live event!
-                                        </p>
-                                    </div>
-                                </div>
-
-                                {/* Tip 4 */}
-                                <div className="flex gap-4">
-                                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center text-white font-bold">
-                                        4
-                                    </div>
-                                    <div>
-                                        <h4 className="text-lg font-semibold text-white mb-2">
-                                            Join at Event Time
-                                        </h4>
-                                        <p className="text-gray-300 text-sm leading-relaxed">
-                                            Make sure to join a few minutes early! The stream will be accessible only during the scheduled time for Access tickets, or for 48 hours after for Premium tickets.
-                                        </p>
-                                    </div>
-                                </div>
-
-                                {/* Important Note */}
-                                <div className="bg-purple-500/10 border border-purple-500/30 rounded-xl p-4 mt-6">
-                                    <div className="flex gap-3">
-                                        <svg className="w-5 h-5 text-purple-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        <div className="flex-1 overflow-y-auto p-6">
+                            <div className="max-w-2xl mx-auto">
+                                <div className="flex items-center justify-between mb-6">
+                                    <h3 className="text-2xl font-bold text-white">
+                                        How to Buy a Ticket
+                                    </h3>
+                                    <button
+                                        onClick={() => setShowHelpModal(false)}
+                                        className="text-gray-400 hover:text-white"
+                                    >
+                                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                                         </svg>
+                                    </button>
+                                </div>
+
+                                <div className="space-y-6 pb-4">
+                                    {/* Tip 1 */}
+                                    <div className="flex gap-4">
+                                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center text-white font-bold">
+                                            1
+                                        </div>
                                         <div>
-                                            <h5 className="text-purple-300 font-semibold mb-1">
-                                                Important
-                                            </h5>
-                                            <p className="text-sm text-gray-300">
-                                                Tickets are non-refundable. Please double-check the event date and time before purchasing. Need help? Contact our support team at support@vybes.com
+                                            <h4 className="text-lg font-semibold text-white mb-2">
+                                                Choose Your Ticket
+                                            </h4>
+                                            <p className="text-gray-300 text-sm leading-relaxed">
+                                                Select between Access (live stream only) or Premium (includes replay and highlighted chat) based on your needs. Premium gives you 48 hours to watch the replay after the event ends.
                                             </p>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
 
-                            <button
-                                onClick={() => setShowHelpModal(false)}
-                                className="w-full mt-6 py-3 px-6 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold rounded-xl transition-all"
-                            >
-                                Got it!
-                            </button>
+                                    {/* Tip 2 */}
+                                    <div className="flex gap-4">
+                                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center text-white font-bold">
+                                            2
+                                        </div>
+                                        <div>
+                                            <h4 className="text-lg font-semibold text-white mb-2">
+                                                Complete Payment
+                                            </h4>
+                                            <p className="text-gray-300 text-sm leading-relaxed">
+                                                After clicking the buy button, you&apos;ll be redirected to our secure payment processor. We accept all major credit cards and payment methods.
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    {/* Tip 3 */}
+                                    <div className="flex gap-4">
+                                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center text-white font-bold">
+                                            3
+                                        </div>
+                                        <div>
+                                            <h4 className="text-lg font-semibold text-white mb-2">
+                                                Access Your Event
+                                            </h4>
+                                            <p className="text-gray-300 text-sm leading-relaxed">
+                                                After purchase, you&apos;ll receive a confirmation email with your ticket and stream access link. Save this link to join the live event!
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    {/* Tip 4 */}
+                                    <div className="flex gap-4">
+                                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center text-white font-bold">
+                                            4
+                                        </div>
+                                        <div>
+                                            <h4 className="text-lg font-semibold text-white mb-2">
+                                                Join at Event Time
+                                            </h4>
+                                            <p className="text-gray-300 text-sm leading-relaxed">
+                                                Make sure to join a few minutes early! The stream will be accessible only during the scheduled time for Access tickets, or for 48 hours after for Premium tickets.
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    {/* Important Note */}
+                                    <div className="bg-purple-500/10 border border-purple-500/30 rounded-xl p-4 mt-6">
+                                        <div className="flex gap-3">
+                                            <svg className="w-5 h-5 text-purple-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                            <div>
+                                                <h5 className="text-purple-300 font-semibold mb-1">
+                                                    Important
+                                                </h5>
+                                                <p className="text-sm text-gray-300">
+                                                    Tickets are non-refundable. Please double-check the event date and time before purchasing. Need help? Contact our support team at support@vybes.com
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button
+                                    onClick={() => setShowHelpModal(false)}
+                                    className="w-full mt-6 py-3 px-6 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold rounded-xl transition-all"
+                                >
+                                    Got it!
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
