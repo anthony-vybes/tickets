@@ -238,46 +238,49 @@ export default function Home() {
 
                 {/* Countdown Timer */}
                 {timeRemaining.days > 0 || timeRemaining.hours > 0 || timeRemaining.minutes > 0 || timeRemaining.seconds > 0 ? (
-                    <div className="flex justify-center mb-8">
-                        <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 backdrop-blur-sm border border-purple-500/30 rounded-2xl p-6 hover:border-purple-500/50 transition-all">
+                    <div className="flex justify-center mb-8 px-2">
+                        <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 backdrop-blur-sm border border-purple-500/30 rounded-2xl p-4 sm:p-6 hover:border-purple-500/50 transition-all w-full max-w-2xl">
                             <div className="text-center mb-3">
-                                <p className="text-sm text-purple-300 font-medium tracking-wide">Event starts in</p>
+                                <p className="text-xs sm:text-sm text-purple-300 font-medium tracking-wide">Event starts in</p>
                             </div>
-                            <div className="flex gap-4 items-center justify-center">
+                            <div className="flex gap-2 sm:gap-4 items-center justify-center flex-wrap">
                                 {timeRemaining.days > 0 && (
-                                    <div className="text-center">
-                                        <div className="bg-white/5 backdrop-blur-md rounded-xl px-4 py-3 min-w-[70px] border border-purple-500/20">
-                                            <div className="text-3xl font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
-                                                {timeRemaining.days}
+                                    <>
+                                        <div className="text-center">
+                                            <div className="bg-white/5 backdrop-blur-md rounded-lg sm:rounded-xl px-2 sm:px-4 py-2 sm:py-3 min-w-[50px] sm:min-w-[70px] border border-purple-500/20">
+                                                <div className="text-xl sm:text-3xl font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
+                                                    {timeRemaining.days}
+                                                </div>
+                                                <div className="text-[10px] sm:text-xs text-gray-400 mt-0.5 sm:mt-1">days</div>
                                             </div>
-                                            <div className="text-xs text-gray-400 mt-1">days</div>
                                         </div>
-                                    </div>
+                                        <div className="text-lg sm:text-2xl text-purple-400 font-bold">:</div>
+                                    </>
                                 )}
                                 <div className="text-center">
-                                    <div className="bg-white/5 backdrop-blur-md rounded-xl px-4 py-3 min-w-[70px] border border-purple-500/20">
-                                        <div className="text-3xl font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
+                                    <div className="bg-white/5 backdrop-blur-md rounded-lg sm:rounded-xl px-2 sm:px-4 py-2 sm:py-3 min-w-[50px] sm:min-w-[70px] border border-purple-500/20">
+                                        <div className="text-xl sm:text-3xl font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
                                             {timeRemaining.hours.toString().padStart(2, '0')}
                                         </div>
-                                        <div className="text-xs text-gray-400 mt-1">hours</div>
+                                        <div className="text-[10px] sm:text-xs text-gray-400 mt-0.5 sm:mt-1">hours</div>
                                     </div>
                                 </div>
-                                <div className="text-2xl text-purple-400 font-bold">:</div>
+                                <div className="text-lg sm:text-2xl text-purple-400 font-bold">:</div>
                                 <div className="text-center">
-                                    <div className="bg-white/5 backdrop-blur-md rounded-xl px-4 py-3 min-w-[70px] border border-purple-500/20">
-                                        <div className="text-3xl font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
+                                    <div className="bg-white/5 backdrop-blur-md rounded-lg sm:rounded-xl px-2 sm:px-4 py-2 sm:py-3 min-w-[50px] sm:min-w-[70px] border border-purple-500/20">
+                                        <div className="text-xl sm:text-3xl font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
                                             {timeRemaining.minutes.toString().padStart(2, '0')}
                                         </div>
-                                        <div className="text-xs text-gray-400 mt-1">minutes</div>
+                                        <div className="text-[10px] sm:text-xs text-gray-400 mt-0.5 sm:mt-1">mins</div>
                                     </div>
                                 </div>
-                                <div className="text-2xl text-purple-400 font-bold">:</div>
+                                <div className="text-lg sm:text-2xl text-purple-400 font-bold">:</div>
                                 <div className="text-center">
-                                    <div className="bg-white/5 backdrop-blur-md rounded-xl px-4 py-3 min-w-[70px] border border-purple-500/20">
-                                        <div className="text-3xl font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent animate-pulse">
+                                    <div className="bg-white/5 backdrop-blur-md rounded-lg sm:rounded-xl px-2 sm:px-4 py-2 sm:py-3 min-w-[50px] sm:min-w-[70px] border border-purple-500/20">
+                                        <div className="text-xl sm:text-3xl font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent animate-pulse">
                                             {timeRemaining.seconds.toString().padStart(2, '0')}
                                         </div>
-                                        <div className="text-xs text-gray-400 mt-1">seconds</div>
+                                        <div className="text-[10px] sm:text-xs text-gray-400 mt-0.5 sm:mt-1">secs</div>
                                     </div>
                                 </div>
                             </div>
