@@ -36,17 +36,17 @@ export const eventConfig: EventConfig = {
     event: {
         title: "Wealth Building Masterclass: From Zero to Financial Freedom",
         description: "Join renowned financial advisor Sarah Chen for an exclusive live masterclass on building wealth, smart investing strategies, and achieving financial independence. Learn proven methods to grow your money and secure your financial future.",
-        date: "January 20, 2026",
+        date: "January 4, 2026",
         time: "7:00 PM EST",
         isLive: true,
     },
     tickets: {
         access: {
-            price: 29,
+            price: 5,
             currency: "USD",
         },
         premium: {
-            price: 49,
+            price: 15,
             currency: "USD",
         },
     },

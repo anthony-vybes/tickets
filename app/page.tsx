@@ -30,7 +30,7 @@ export default function Home() {
         // loadConfig();
 
         // Countdown timer
-        const eventDate = new Date("2026-01-20T19:00:00-05:00").getTime(); // 7:00 PM EST
+        const eventDate = new Date("2026-01-04T19:00:00-05:00").getTime(); // 7:00 PM EST
 
         const updateCountdown = () => {
             const now = new Date().getTime();
@@ -58,11 +58,13 @@ export default function Home() {
     };
 
     const handleConfirmPurchase = () => {
-        // In production, redirect to external payment processor
-        // window.location.href = `/checkout?ticket=${selectedTicket}&eventId=${eventId}`;
-        alert(
-            `Redirecting to payment for ${selectedTicket?.toUpperCase()} ticket...`
-        );
+        // In production, redirect to external payment processor with ticket type
+        if (selectedTicket) {
+            // window.location.href = `/checkout?ticket=${selectedTicket}&eventId=${config.event.id}&price=${getTicketPrice(selectedTicket)}`;
+            alert(
+                `Redirecting to payment for ${selectedTicket?.toUpperCase()} ticket...\nTicket Type: ${selectedTicket}\nPrice: $${getTicketPrice(selectedTicket)}`
+            );
+        }
         setShowModal(false);
     };
 
@@ -169,68 +171,93 @@ export default function Home() {
                             />
                         </div>
                     </div>
-                    <h2 className="text-3xl sm:text-4xl font-bold text-white mb-2">
-                        {config.streamer.name}
-                    </h2>
-                    {config.streamer.verified && (
-                        <div className="flex items-center gap-2 px-3 py-1 bg-purple-500/20 rounded-full border border-purple-500/30">
+                    <div className="flex items-center justify-center gap-2">
+                        <h2 className="text-3xl sm:text-4xl font-bold text-white">
+                            {config.streamer.name}
+                        </h2>
+                        {config.streamer.verified && (
                             <svg
-                                className="w-4 h-4 text-purple-400"
-                                fill="currentColor"
-                                viewBox="0 0 20 20"
+                                className="w-6 h-6 sm:w-7 sm:h-7 flex-shrink-0"
+                                viewBox="0 0 24 24"
+                                aria-label="Verified"
                             >
-                                <path d="M10 0l2.5 7.5L20 8.5l-6 5.5L15.5 22 10 17.5 4.5 22 6 14 0 8.5l7.5-1L10 0z" />
+                                <circle cx="12" cy="12" r="10" fill="#1D9BF0" />
+                                <path
+                                    d="M9 12L11 14L15 10"
+                                    stroke="white"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    fill="none"
+                                />
                             </svg>
-                            <span className="text-sm text-purple-300 font-medium">
-                                Verified
-                            </span>
-                        </div>
-                    )}
+                        )}
+                    </div>
                 </div>
 
                 {/* Event Details */}
                 <div className="bg-white/5 backdrop-blur-md rounded-2xl border border-purple-500/20 p-6 mb-8">
-                    <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4">
+                    <h3 className="text-2xl sm:text-3xl font-bold text-white mb-6">
                         {config.event.title}
                     </h3>
-                    <div className="flex flex-wrap gap-4 mb-4">
-                        <div className="flex items-center gap-2 text-purple-300">
-                            <svg
-                                className="w-5 h-5"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                                />
-                            </svg>
-                            <span className="text-sm sm:text-base">
-                                {config.event.time}
-                            </span>
+
+                    {/* Date and Time Cards */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+                        {/* Date Card */}
+                        <div className="group relative bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-xl p-4 border border-purple-500/20 hover:border-purple-500/40 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-purple-500/20">
+                            <div className="flex items-center gap-3">
+                                <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                                    <svg
+                                        className="w-6 h-6 text-white"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                        />
+                                    </svg>
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                    <p className="text-xs text-purple-300 font-medium mb-0.5">Date</p>
+                                    <p className="text-white font-semibold text-sm sm:text-base truncate">
+                                        {config.event.date}
+                                    </p>
+                                </div>
+                            </div>
                         </div>
-                        <div className="flex items-center gap-2 text-purple-300">
-                            <svg
-                                className="w-5 h-5"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                                />
-                            </svg>
-                            <span className="text-sm sm:text-base">
-                                {config.event.date}
-                            </span>
+
+                        {/* Time Card */}
+                        <div className="group relative bg-gradient-to-br from-pink-500/10 to-purple-500/10 rounded-xl p-4 border border-pink-500/20 hover:border-pink-500/40 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-pink-500/20">
+                            <div className="flex items-center gap-3">
+                                <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                                    <svg
+                                        className="w-6 h-6 text-white"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                                        />
+                                    </svg>
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                    <p className="text-xs text-pink-300 font-medium mb-0.5">Time</p>
+                                    <p className="text-white font-semibold text-sm sm:text-base truncate">
+                                        {config.event.time}
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
                     <p className="text-gray-300 leading-relaxed">
                         {config.event.description}
                     </p>
@@ -300,7 +327,7 @@ export default function Home() {
                             <div className="flex justify-between items-start mb-6">
                                 <div>
                                     <h4 className="text-xl font-bold text-white mb-1">
-                                        Access Ticket
+                                        Basic
                                     </h4>
                                     <p className="text-sm text-gray-400">
                                         Join the live stream
@@ -371,31 +398,14 @@ export default function Home() {
                                         HD quality streaming
                                     </span>
                                 </li>
-                                <li className="flex items-start gap-3">
-                                    <svg
-                                        className="w-5 h-5 text-gray-600 mt-0.5 flex-shrink-0"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M6 18L18 6M6 6l12 12"
-                                        />
-                                    </svg>
-                                    <span className="text-gray-500 text-sm">
-                                        No replay access
-                                    </span>
-                                </li>
+
                             </ul>
 
                             <button
                                 onClick={() => handleBuyTicket("access")}
                                 className="w-full py-3 px-6 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl transition-colors"
                             >
-                                Buy Access Ticket
+                                Buy Basic Ticket
                             </button>
                         </div>
 
@@ -410,10 +420,10 @@ export default function Home() {
                             <div className="flex justify-between items-start mb-6">
                                 <div>
                                     <h4 className="text-xl font-bold text-white mb-1">
-                                        Premium Ticket
+                                        Premium
                                     </h4>
                                     <p className="text-sm text-purple-300">
-                                        Get the full experience
+                                        Make your voice stand out
                                     </p>
                                 </div>
                                 <div className="text-right">
@@ -463,60 +473,6 @@ export default function Home() {
                                         Highlighted chat messages
                                     </span>
                                 </li>
-                                <li className="flex items-start gap-3">
-                                    <svg
-                                        className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M5 13l4 4L19 7"
-                                        />
-                                    </svg>
-                                    <span className="text-white text-sm font-semibold">
-                                        48-hour replay access
-                                    </span>
-                                </li>
-                                <li className="flex items-start gap-3">
-                                    <svg
-                                        className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M5 13l4 4L19 7"
-                                        />
-                                    </svg>
-                                    <span className="text-gray-300 text-sm">
-                                        Priority support
-                                    </span>
-                                </li>
-                                <li className="flex items-start gap-3">
-                                    <svg
-                                        className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M5 13l4 4L19 7"
-                                        />
-                                    </svg>
-                                    <span className="text-gray-300 text-sm">
-                                        Exclusive badges
-                                    </span>
-                                </li>
                             </ul>
 
                             <button
@@ -529,109 +485,174 @@ export default function Home() {
                     </div>
                 </div>
 
-                {/* Info Banner */}
-                <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-4 backdrop-blur-sm">
-                    <div className="flex gap-3">
+                {/* Vybes Promo Banner */}
+                <a
+                    href="https://vybesapp.live"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/30 rounded-xl p-4 backdrop-blur-sm hover:border-purple-500/50 transition-all group"
+                >
+                    <div className="flex items-center gap-3">
+                        <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 32 32"
+                                fill="none"
+                                className="h-6 w-6"
+                            >
+                                <defs>
+                                    <linearGradient id="banner-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stopColor="#ffffff" />
+                                        <stop offset="100%" stopColor="#ffffff" />
+                                    </linearGradient>
+                                </defs>
+                                <path
+                                    d="M 6 16 Q 6 8, 16 6 Q 26 8, 26 16 Q 26 24, 16 26 Q 6 24, 6 16"
+                                    stroke="url(#banner-gradient)"
+                                    strokeWidth="2.5"
+                                    fill="none"
+                                    strokeLinecap="round"
+                                />
+                                <path
+                                    d="M 10 16 Q 10 11, 16 10 Q 22 11, 22 16 Q 22 21, 16 22 Q 10 21, 10 16"
+                                    stroke="url(#banner-gradient)"
+                                    strokeWidth="2.5"
+                                    fill="none"
+                                    strokeLinecap="round"
+                                />
+                                <circle
+                                    cx="16"
+                                    cy="16"
+                                    r="3"
+                                    fill="url(#banner-gradient)"
+                                />
+                            </svg>
+                        </div>
+                        <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-1">
+                                <h4 className="text-purple-300 font-semibold group-hover:text-purple-200 transition-colors">
+                                    Create your own ticketed live stream
+                                </h4>
+                            </div>
+                            <p className="text-xs text-gray-400 group-hover:text-gray-300 transition-colors">
+                                Build your audience and monetize with vybes
+                            </p>
+                        </div>
                         <svg
-                            className="w-6 h-6 text-blue-400 flex-shrink-0"
+                            className="w-5 h-5 text-purple-400 group-hover:translate-x-1 transition-transform"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
                         >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                            />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
-                        <div>
-                            <h4 className="text-blue-300 font-semibold mb-1">
-                                Live-Only Access
-                            </h4>
-                            <p className="text-sm text-gray-300">
-                                This is a live-only event. Access tickets do not
-                                include replay. Premium tickets include 48-hour
-                                replay access after the stream ends.
-                            </p>
-                        </div>
                     </div>
-                </div>
+                </a>
             </main>
 
             {/* Footer */}
             <footer className="border-t border-purple-500/20 bg-black/30 backdrop-blur-md py-6 mt-12">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-400 text-sm">
-                    <p>&copy; 2026 Vybes. All rights reserved.</p>
+                    <p>&copy; 2026 Vybes Media Ltd. All rights reserved.</p>
                 </div>
             </footer>
 
             {/* Purchase Modal */}
             {showModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-                    <div className="bg-slate-900 border border-purple-500/30 rounded-2xl p-6 max-w-md w-full">
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
+                    <div className="bg-gradient-to-br from-slate-900 to-slate-950 border border-purple-500/30 rounded-3xl p-8 max-w-md w-full shadow-2xl shadow-purple-500/20 animate-in zoom-in-95 duration-300">
                         <button
                             onClick={() => setShowModal(false)}
-                            className="float-right text-gray-400 hover:text-white text-2xl leading-none"
+                            className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full"
                         >
-                            &times;
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
                         </button>
+
                         <div className="text-center mb-6">
-                            <div className="w-16 h-16 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <svg
-                                    className="w-8 h-8 text-purple-400"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M5 13l4 4L19 7"
-                                    />
-                                </svg>
+                            <div className="relative inline-block mb-4">
+                                <div className="absolute inset-0 bg-gradient-to-r from-pink-500 to-purple-500 rounded-2xl blur-xl opacity-50 animate-pulse"></div>
+                                <div className="relative w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center">
+                                    <svg
+                                        className="w-10 h-10 text-white"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"
+                                        />
+                                    </svg>
+                                </div>
                             </div>
-                            <h3 className="text-2xl font-bold text-white mb-2">
-                                Confirm Purchase
+                            <h3 className="text-3xl font-bold text-white mb-2 bg-gradient-to-r from-purple-200 to-pink-200 bg-clip-text text-transparent">
+                                Complete Your Purchase
                             </h3>
-                            <p className="text-gray-400">
-                                You&apos;re about to purchase a ticket for this event
+                            <p className="text-gray-400 text-sm">
+                                Review your selection before checkout
                             </p>
                         </div>
 
-                        <div className="bg-white/5 rounded-xl p-4 mb-6 space-y-2">
-                            <div className="flex justify-between">
-                                <span className="text-gray-400">
-                                    Ticket Type:
-                                </span>
-                                <span className="text-white font-semibold capitalize">
-                                    {selectedTicket}
+                        <div className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-2xl p-5 mb-6 border border-purple-500/20">
+                            <div className="flex items-center justify-between mb-4">
+                                <span className="text-sm text-gray-400">Ticket Type</span>
+                                <span className={`px-3 py-1 rounded-full text-sm font-semibold ${selectedTicket === 'premium'
+                                    ? 'bg-gradient-to-r from-pink-500 to-purple-500 text-white'
+                                    : 'bg-purple-500/20 text-purple-300'
+                                    }`}>
+                                    {selectedTicket === 'premium' ? 'Premium' : 'Basic'}
                                 </span>
                             </div>
-                            <div className="flex justify-between">
-                                <span className="text-gray-400">Price:</span>
-                                <span className="text-white font-semibold">
-                                    $
-                                    {selectedTicket &&
-                                        getTicketPrice(selectedTicket)}
+
+                            <div className="flex items-center justify-between mb-4 pb-4 border-b border-white/10">
+                                <span className="text-sm text-gray-400">Event</span>
+                                <span className="text-white font-medium text-sm text-right max-w-[200px] truncate">
+                                    {config.event.title}
                                 </span>
+                            </div>
+
+                            <div className="flex items-baseline justify-between">
+                                <span className="text-gray-400">Total</span>
+                                <div className="text-right">
+                                    <div className="text-3xl font-bold text-white">
+                                        ${selectedTicket && getTicketPrice(selectedTicket)}
+                                    </div>
+                                    <div className="text-xs text-gray-400">
+                                        {selectedTicket && config.tickets[selectedTicket].currency}
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <div className="flex gap-3">
-                            <button
-                                onClick={() => setShowModal(false)}
-                                className="flex-1 py-3 px-6 bg-gray-700 hover:bg-gray-600 text-white font-semibold rounded-xl transition-colors"
-                            >
-                                Cancel
-                            </button>
+                        <div className="space-y-3">
                             <button
                                 onClick={handleConfirmPurchase}
-                                className="flex-1 py-3 px-6 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold rounded-xl transition-all"
+                                className="w-full py-4 px-6 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-bold rounded-xl transition-all shadow-lg shadow-purple-500/50 hover:shadow-purple-500/70 hover:scale-[1.02] active:scale-[0.98]"
                             >
-                                Continue to Payment
+                                <span className="flex items-center justify-center gap-2">
+                                    Continue to Payment
+                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </span>
                             </button>
+                            <button
+                                onClick={() => setShowModal(false)}
+                                className="w-full py-3 px-6 bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white font-semibold rounded-xl transition-all border border-white/10"
+                            >
+                                Go Back
+                            </button>
+                        </div>
+
+                        <div className="mt-6 flex items-center justify-center gap-2 text-xs text-gray-500">
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
+                            <span>Secure checkout powered by Stripe</span>
                         </div>
                     </div>
                 </div>
@@ -674,7 +695,7 @@ export default function Home() {
                                                 Choose Your Ticket
                                             </h4>
                                             <p className="text-gray-300 text-sm leading-relaxed">
-                                                Select between Access (live stream only) or Premium (includes replay and highlighted chat) based on your needs. Premium gives you 48 hours to watch the replay after the event ends.
+                                                Select between Basic (live stream only) or Premium (includes highlighted chat and exclusive features) based on your needs.
                                             </p>
                                         </div>
                                     </div>
@@ -719,7 +740,7 @@ export default function Home() {
                                                 Join at Event Time
                                             </h4>
                                             <p className="text-gray-300 text-sm leading-relaxed">
-                                                Make sure to join a few minutes early! The stream will be accessible only during the scheduled time for Access tickets, or for 48 hours after for Premium tickets.
+                                                Make sure to join a few minutes early! The stream will be accessible during the scheduled event time.
                                             </p>
                                         </div>
                                     </div>
