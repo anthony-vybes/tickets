@@ -115,20 +115,7 @@ export default function Home() {
             </header>
 
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-20">
-                {/* Live Badge */}
-                {config.event.isLive && (
-                    <div className="flex justify-center mb-6">
-                        <div className="inline-flex items-center gap-2 px-4 py-2 bg-red-500/20 border border-red-500/50 rounded-full backdrop-blur-sm">
-                            <span className="relative flex h-3 w-3">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
-                            </span>
-                            <span className="text-red-100 font-semibold text-sm tracking-wide">
-                                LIVE EVENT
-                            </span>
-                        </div>
-                    </div>
-                )}
+
 
                 {/* Streamer Profile */}
                 <div className="flex flex-col items-center mb-8">
