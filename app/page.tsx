@@ -78,41 +78,12 @@ export default function Home() {
             <header className="sticky top-0 z-50 bg-black/30 backdrop-blur-md border-b border-purple-500/20">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                     <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 32 32"
-                                fill="none"
-                                className="h-8 w-8 flex-shrink-0"
-                            >
-                                <defs>
-                                    <linearGradient id="vybes-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" stopColor="#a855f7" />
-                                        <stop offset="50%" stopColor="#ec4899" />
-                                        <stop offset="100%" stopColor="#ef4444" />
-                                    </linearGradient>
-                                </defs>
-                                <path
-                                    d="M 6 16 Q 6 8, 16 6 Q 26 8, 26 16 Q 26 24, 16 26 Q 6 24, 6 16"
-                                    stroke="url(#vybes-gradient)"
-                                    strokeWidth="2.5"
-                                    fill="none"
-                                    strokeLinecap="round"
-                                />
-                                <path
-                                    d="M 10 16 Q 10 11, 16 10 Q 22 11, 22 16 Q 22 21, 16 22 Q 10 21, 10 16"
-                                    stroke="url(#vybes-gradient)"
-                                    strokeWidth="2.5"
-                                    fill="none"
-                                    strokeLinecap="round"
-                                />
-                                <circle
-                                    cx="16"
-                                    cy="16"
-                                    r="3"
-                                    fill="url(#vybes-gradient)"
-                                />
-                            </svg>
+                        <div className="flex items-center gap-1">
+                            <img
+                                src="/logo.png"
+                                alt="Vybes Logo"
+                                className="h-10 w-auto flex-shrink-0 object-contain"
+                            />
                             <span className="text-2xl font-bold tracking-tight leading-none text-white">
                                 vybes
                             </span>
