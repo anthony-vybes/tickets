@@ -452,7 +452,7 @@ export default function Home() {
                                         />
                                     </svg>
                                     <span className="text-gray-300 text-sm">
-                                        Everything in Access
+                                        Everything in Basic
                                     </span>
                                 </li>
                                 <li className="flex items-start gap-3">
@@ -756,7 +756,7 @@ export default function Home() {
                                                     Important
                                                 </h5>
                                                 <p className="text-sm text-gray-300">
-                                                    Tickets are non-refundable. Please double-check the event date and time before purchasing. Need help? Contact our support team at support@vybes.com
+                                                    Tickets are non-refundable. Please double-check the event date and time before purchasing. Need help? Contact our support team at support@vybesapp.live
                                                 </p>
                                             </div>
                                         </div>
