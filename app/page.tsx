@@ -120,39 +120,90 @@ export default function Home() {
                 {/* Streamer Profile */}
                 <div className="flex flex-col items-center mb-8">
                     <div className="relative mb-4">
+                        {/* Outer glow effect */}
                         <div className="absolute inset-0 rounded-full bg-gradient-to-br from-pink-500 to-purple-600 blur-xl opacity-50"></div>
-                        <div className="relative w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden ring-4 ring-purple-500/50">
-                            <Image
-                                src={config.streamer.photo}
-                                alt={config.streamer.name}
-                                width={128}
-                                height={128}
-                                className="w-full h-full object-cover"
-                                unoptimized
-                            />
-                        </div>
-                    </div>
-                    <div className="flex items-center justify-center gap-2">
-                        <h2 className="text-3xl sm:text-4xl font-bold text-white">
-                            {config.streamer.name}
-                        </h2>
-                        {config.streamer.verified && (
-                            <svg
-                                className="w-6 h-6 sm:w-7 sm:h-7 flex-shrink-0"
-                                viewBox="0 0 24 24"
-                                aria-label="Verified"
-                            >
-                                <circle cx="12" cy="12" r="10" fill="#1D9BF0" />
-                                <path
-                                    d="M9 12L11 14L15 10"
-                                    stroke="white"
-                                    strokeWidth="2"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    fill="none"
-                                />
-                            </svg>
+
+                        {/* Instagram-style live ring animation */}
+                        {config.event.isLive && (
+                            <>
+                                <div className="absolute inset-0 rounded-full animate-ping">
+                                    <div className="w-full h-full rounded-full bg-gradient-to-tr from-pink-500 via-purple-500 to-yellow-500 opacity-75"></div>
+                                </div>
+                                <div className="absolute inset-0 rounded-full animate-pulse">
+                                    <div className="w-full h-full rounded-full bg-gradient-to-tr from-pink-500 via-purple-500 to-yellow-500 opacity-50"></div>
+                                </div>
+                            </>
                         )}
+
+                        {/* Profile image with live ring */}
+                        {config.event.isLive ? (
+                            <div className="relative w-24 h-24 sm:w-32 sm:h-32">
+                                {/* Spinning gradient ring */}
+                                <div className="absolute inset-0 rounded-full p-[3px] sm:p-1 bg-gradient-to-tr from-pink-500 via-purple-500 to-yellow-500 animate-[spin_3s_linear_infinite]">
+                                    <div className="w-full h-full rounded-full bg-slate-950"></div>
+                                </div>
+                                {/* Static image on top */}
+                                <div className="absolute inset-0 m-[3px] sm:m-1 rounded-full overflow-hidden ring-2 ring-slate-950">
+                                    <Image
+                                        src={config.streamer.photo}
+                                        alt={config.streamer.name}
+                                        width={128}
+                                        height={128}
+                                        className="w-full h-full object-cover"
+                                        unoptimized
+                                    />
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="relative w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden ring-4 ring-purple-500/50">
+                                <Image
+                                    src={config.streamer.photo}
+                                    alt={config.streamer.name}
+                                    width={128}
+                                    height={128}
+                                    className="w-full h-full object-cover"
+                                    unoptimized
+                                />
+                            </div>
+                        )}
+
+                        {/* Live badge */}
+                        {config.event.isLive && (
+                            <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg shadow-red-500/50 animate-pulse flex items-center gap-1.5">
+                                <span className="relative flex h-2 w-2">
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+                                </span>
+                                LIVE
+                            </div>
+                        )}
+                    </div>
+                    <div className="text-center">
+                        <div className="flex items-center justify-center gap-2 mb-2">
+                            <h2 className="text-3xl sm:text-4xl font-bold text-white">
+                                {config.streamer.name}
+                            </h2>
+                            {config.streamer.verified && (
+                                <svg
+                                    className="w-6 h-6 sm:w-7 sm:h-7 flex-shrink-0"
+                                    viewBox="0 0 24 24"
+                                    aria-label="Verified"
+                                >
+                                    <circle cx="12" cy="12" r="10" fill="#1D9BF0" />
+                                    <path
+                                        d="M9 12L11 14L15 10"
+                                        stroke="white"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        fill="none"
+                                    />
+                                </svg>
+                            )}
+                        </div>
+                        <p className="text-gray-400 text-sm sm:text-base max-w-md mx-auto px-4">
+                            {config.streamer.bio}
+                        </p>
                     </div>
                 </div>
 

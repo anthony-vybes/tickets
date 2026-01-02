@@ -6,6 +6,7 @@ export interface EventConfig {
         name: string;
         photo: string;
         verified: boolean;
+        bio: string;
     };
     event: {
         title: string;
@@ -32,6 +33,7 @@ export const eventConfig: EventConfig = {
         name: "Sarah Chen",
         photo: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&h=200&fit=crop",
         verified: true,
+        bio: "Financial advisor & wealth coach helping people achieve financial freedom. 500K+ followers.",
     },
     event: {
         title: "Wealth Building Masterclass: From Zero to Financial Freedom",
