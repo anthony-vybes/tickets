@@ -12,7 +12,7 @@ export default function SuccessPage() {
     }, []);
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 flex items-center justify-center p-4">
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-50 flex items-center justify-center p-4">
             <div className={`max-w-2xl w-full transition-all duration-500 ${mounted ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
                 {/* Success Icon */}
                 <div className="flex justify-center mb-8">
@@ -38,18 +38,18 @@ export default function SuccessPage() {
 
                 {/* Success Message */}
                 <div className="text-center mb-8">
-                    <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4 bg-gradient-to-r from-green-200 to-emerald-200 bg-clip-text text-transparent">
+                    <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-4">
                         Purchase Successful!
                     </h1>
-                    <p className="text-xl text-gray-300 mb-2">
+                    <p className="text-xl text-slate-600 mb-2">
                         Thank you for your purchase
                     </p>
                 </div>
 
                 {/* Info Card */}
-                <div className="bg-white/5 backdrop-blur-md rounded-2xl border border-purple-500/20 p-8 mb-6">
+                <div className="bg-white border border-slate-200 shadow-md rounded-2xl p-8 mb-6">
                     <div className="flex items-start gap-4 mb-6">
-                        <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                        <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center shadow-sm">
                             <svg
                                 className="w-6 h-6 text-white"
                                 fill="none"
@@ -65,20 +65,20 @@ export default function SuccessPage() {
                             </svg>
                         </div>
                         <div className="flex-1">
-                            <h2 className="text-xl font-bold text-white mb-2">
+                            <h2 className="text-xl font-bold text-slate-900 mb-2">
                                 Check Your Email
                             </h2>
-                            <p className="text-gray-300 leading-relaxed">
+                            <p className="text-slate-600 leading-relaxed">
                                 We&apos;ve sent a confirmation email to your inbox with your ticket details and access link for the event.
                             </p>
                         </div>
                     </div>
 
                     {/* Important Notice */}
-                    <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4">
+                    <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
                         <div className="flex gap-3">
                             <svg
-                                className="w-5 h-5 text-yellow-400 flex-shrink-0 mt-0.5"
+                                className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5"
                                 fill="none"
                                 stroke="currentColor"
                                 viewBox="0 0 24 24"
@@ -91,10 +91,10 @@ export default function SuccessPage() {
                                 />
                             </svg>
                             <div>
-                                <h3 className="text-yellow-300 font-semibold mb-1">
+                                <h3 className="text-amber-800 font-semibold mb-1">
                                     Check Your Spam Folder
                                 </h3>
-                                <p className="text-sm text-gray-300">
+                                <p className="text-sm text-amber-700">
                                     If you don&apos;t see the email in your inbox within a few minutes, please check your spam or junk folder. Mark it as &quot;Not Spam&quot; to ensure you receive future updates.
                                 </p>
                             </div>
@@ -103,30 +103,30 @@ export default function SuccessPage() {
                 </div>
 
                 {/* What's Next */}
-                <div className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 backdrop-blur-sm border border-purple-500/30 rounded-2xl p-6 mb-6">
-                    <h3 className="text-lg font-bold text-white mb-4">What&apos;s Next?</h3>
+                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 rounded-2xl p-6 mb-6">
+                    <h3 className="text-lg font-bold text-slate-900 mb-4">What&apos;s Next?</h3>
                     <div className="space-y-3">
                         <div className="flex items-start gap-3">
-                            <div className="flex-shrink-0 w-6 h-6 bg-purple-500/20 rounded-full flex items-center justify-center text-purple-400 text-sm font-bold">
+                            <div className="flex-shrink-0 w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center text-blue-700 text-sm font-bold">
                                 1
                             </div>
-                            <p className="text-gray-300 text-sm">
+                            <p className="text-slate-700 text-sm">
                                 Save the access link from your email
                             </p>
                         </div>
                         <div className="flex items-start gap-3">
-                            <div className="flex-shrink-0 w-6 h-6 bg-purple-500/20 rounded-full flex items-center justify-center text-purple-400 text-sm font-bold">
+                            <div className="flex-shrink-0 w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center text-blue-700 text-sm font-bold">
                                 2
                             </div>
-                            <p className="text-gray-300 text-sm">
+                            <p className="text-slate-700 text-sm">
                                 Add the event to your calendar
                             </p>
                         </div>
                         <div className="flex items-start gap-3">
-                            <div className="flex-shrink-0 w-6 h-6 bg-purple-500/20 rounded-full flex items-center justify-center text-purple-400 text-sm font-bold">
+                            <div className="flex-shrink-0 w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center text-blue-700 text-sm font-bold">
                                 3
                             </div>
-                            <p className="text-gray-300 text-sm">
+                            <p className="text-slate-700 text-sm">
                                 Join a few minutes early to test your connection
                             </p>
                         </div>
@@ -137,7 +137,7 @@ export default function SuccessPage() {
                 <div className="flex flex-col sm:flex-row gap-4">
                     <Link
                         href="/"
-                        className="flex-1 py-3 px-6 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold rounded-xl transition-all shadow-lg shadow-purple-500/50 text-center"
+                        className="flex-1 py-3 px-6 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-xl transition-all shadow-md hover:shadow-lg text-center"
                     >
                         Back to Event Page
                     </Link>
@@ -145,7 +145,7 @@ export default function SuccessPage() {
                         href="https://vybesapp.live"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex-1 py-3 px-6 bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white font-semibold rounded-xl transition-all text-center"
+                        className="flex-1 py-3 px-6 bg-white hover:bg-slate-50 border border-slate-300 text-slate-700 hover:text-slate-900 font-semibold rounded-xl transition-all text-center shadow-sm"
                     >
                         Explore Vybes
                     </a>
@@ -153,11 +153,11 @@ export default function SuccessPage() {
 
                 {/* Support */}
                 <div className="text-center mt-8">
-                    <p className="text-gray-400 text-sm">
+                    <p className="text-slate-600 text-sm">
                         Need help?{" "}
                         <a
                             href="mailto:support@vybes.com"
-                            className="text-purple-400 hover:text-purple-300 underline"
+                            className="text-blue-600 hover:text-blue-700 underline"
                         >
                             Contact Support
                         </a>

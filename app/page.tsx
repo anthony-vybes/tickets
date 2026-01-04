@@ -57,15 +57,34 @@ export default function Home() {
         setShowModal(true);
     };
 
-    const handleConfirmPurchase = () => {
-        // In production, redirect to external payment processor with ticket type
-        if (selectedTicket) {
-            // window.location.href = `/checkout?ticket=${selectedTicket}&eventId=${config.event.id}&price=${getTicketPrice(selectedTicket)}`;
-            alert(
-                `Redirecting to payment for ${selectedTicket?.toUpperCase()} ticket...\nTicket Type: ${selectedTicket}\nPrice: $${getTicketPrice(selectedTicket)}`
-            );
+    const handleConfirmPurchase = async () => {
+        if (!selectedTicket) return;
+
+        try {
+            // Create Stripe checkout session
+            const response = await fetch('/api/create-checkout-session', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    ticketType: selectedTicket,
+                    eventTitle: config.event.title,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (data.url) {
+                // Redirect to Stripe checkout
+                window.location.href = data.url;
+            } else {
+                alert('Error creating checkout session. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error creating checkout session. Please try again.');
         }
-        setShowModal(false);
     };
 
     const getTicketPrice = (tier: TicketTier) => {
@@ -73,9 +92,9 @@ export default function Home() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950">
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-50">
             {/* Header */}
-            <header className="sticky top-0 z-50 bg-black/30 backdrop-blur-md border-b border-purple-500/20">
+            <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-1">
@@ -87,17 +106,17 @@ export default function Home() {
                                 className="h-10 w-auto flex-shrink-0 object-contain"
                                 unoptimized
                             />
-                            <span className="text-2xl font-bold tracking-tight leading-none text-white">
+                            <span className="text-2xl font-bold tracking-tight leading-none text-slate-900">
                                 vybes
                             </span>
                         </div>
                         <button
                             onClick={() => setShowHelpModal(true)}
-                            className="p-2 rounded-full hover:bg-white/10 transition-colors"
+                            className="p-2 rounded-full hover:bg-slate-100 transition-colors"
                             aria-label="Help"
                         >
                             <svg
-                                className="w-6 h-6 text-purple-300 hover:text-purple-200"
+                                className="w-6 h-6 text-blue-600 hover:text-blue-700"
                                 fill="none"
                                 stroke="currentColor"
                                 viewBox="0 0 24 24"
@@ -120,67 +139,20 @@ export default function Home() {
                 {/* Streamer Profile */}
                 <div className="flex flex-col items-center mb-8">
                     <div className="relative mb-4">
-                        {/* Outer glow effect */}
-                        <div className="absolute inset-0 rounded-full bg-gradient-to-br from-pink-500 to-purple-600 blur-xl opacity-50"></div>
-
-                        {/* Instagram-style live ring animation */}
-                        {config.event.isLive && (
-                            <>
-                                <div className="absolute inset-0 rounded-full animate-ping">
-                                    <div className="w-full h-full rounded-full bg-gradient-to-tr from-pink-500 via-purple-500 to-yellow-500 opacity-75"></div>
-                                </div>
-                                <div className="absolute inset-0 rounded-full animate-pulse">
-                                    <div className="w-full h-full rounded-full bg-gradient-to-tr from-pink-500 via-purple-500 to-yellow-500 opacity-50"></div>
-                                </div>
-                            </>
-                        )}
-
-                        {/* Profile image with live ring */}
-                        {config.event.isLive ? (
-                            <div className="relative w-24 h-24 sm:w-32 sm:h-32">
-                                {/* Spinning gradient ring */}
-                                <div className="absolute inset-0 rounded-full p-[3px] sm:p-1 bg-gradient-to-tr from-pink-500 via-purple-500 to-yellow-500 animate-[spin_3s_linear_infinite]">
-                                    <div className="w-full h-full rounded-full bg-slate-950"></div>
-                                </div>
-                                {/* Static image on top */}
-                                <div className="absolute inset-0 m-[3px] sm:m-1 rounded-full overflow-hidden ring-2 ring-slate-950">
-                                    <Image
-                                        src={config.streamer.photo}
-                                        alt={config.streamer.name}
-                                        width={128}
-                                        height={128}
-                                        className="w-full h-full object-cover"
-                                        unoptimized
-                                    />
-                                </div>
-                            </div>
-                        ) : (
-                            <div className="relative w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden ring-4 ring-purple-500/50">
-                                <Image
-                                    src={config.streamer.photo}
-                                    alt={config.streamer.name}
-                                    width={128}
-                                    height={128}
-                                    className="w-full h-full object-cover"
-                                    unoptimized
-                                />
-                            </div>
-                        )}
-
-                        {/* Live badge */}
-                        {config.event.isLive && (
-                            <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg shadow-red-500/50 animate-pulse flex items-center gap-1.5">
-                                <span className="relative flex h-2 w-2">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
-                                </span>
-                                LIVE
-                            </div>
-                        )}
+                        <div className="relative w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden ring-4 ring-blue-200 shadow-lg">
+                            <Image
+                                src={config.streamer.photo}
+                                alt={config.streamer.name}
+                                width={128}
+                                height={128}
+                                className="w-full h-full object-cover"
+                                unoptimized
+                            />
+                        </div>
                     </div>
                     <div className="text-center">
                         <div className="flex items-center justify-center gap-2 mb-2">
-                            <h2 className="text-3xl sm:text-4xl font-bold text-white">
+                            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900">
                                 {config.streamer.name}
                             </h2>
                             {config.streamer.verified && (
@@ -201,24 +173,24 @@ export default function Home() {
                                 </svg>
                             )}
                         </div>
-                        <p className="text-gray-400 text-sm sm:text-base max-w-md mx-auto px-4">
+                        <p className="text-slate-600 text-sm sm:text-base max-w-md mx-auto px-4">
                             {config.streamer.bio}
                         </p>
                     </div>
                 </div>
 
                 {/* Event Details */}
-                <div className="bg-white/5 backdrop-blur-md rounded-2xl border border-purple-500/20 p-6 mb-8">
-                    <h3 className="text-2xl sm:text-3xl font-bold text-white mb-6">
+                <div className="bg-white border border-slate-200 shadow-md rounded-2xl p-6 mb-8">
+                    <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-6">
                         {config.event.title}
                     </h3>
 
                     {/* Date and Time Cards */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
                         {/* Date Card */}
-                        <div className="group relative bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-xl p-4 border border-purple-500/20 hover:border-purple-500/40 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-purple-500/20">
+                        <div className="group relative bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-4 border border-blue-200 hover:border-blue-300 transition-all duration-300 hover:scale-[1.02] hover:shadow-md">
                             <div className="flex items-center gap-3">
-                                <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                                <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                                     <svg
                                         className="w-6 h-6 text-white"
                                         fill="none"
@@ -234,8 +206,8 @@ export default function Home() {
                                     </svg>
                                 </div>
                                 <div className="flex-1 min-w-0">
-                                    <p className="text-xs text-purple-300 font-medium mb-0.5">Date</p>
-                                    <p className="text-white font-semibold text-sm sm:text-base truncate">
+                                    <p className="text-xs text-blue-600 font-medium mb-0.5">Date</p>
+                                    <p className="text-slate-900 font-semibold text-sm sm:text-base truncate">
                                         {config.event.date}
                                     </p>
                                 </div>
@@ -243,9 +215,9 @@ export default function Home() {
                         </div>
 
                         {/* Time Card */}
-                        <div className="group relative bg-gradient-to-br from-pink-500/10 to-purple-500/10 rounded-xl p-4 border border-pink-500/20 hover:border-pink-500/40 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-pink-500/20">
+                        <div className="group relative bg-gradient-to-br from-violet-50 to-purple-50 rounded-xl p-4 border border-violet-200 hover:border-violet-300 transition-all duration-300 hover:scale-[1.02] hover:shadow-md">
                             <div className="flex items-center gap-3">
-                                <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                                <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                                     <svg
                                         className="w-6 h-6 text-white"
                                         fill="none"
@@ -261,8 +233,8 @@ export default function Home() {
                                     </svg>
                                 </div>
                                 <div className="flex-1 min-w-0">
-                                    <p className="text-xs text-pink-300 font-medium mb-0.5">Time</p>
-                                    <p className="text-white font-semibold text-sm sm:text-base truncate">
+                                    <p className="text-xs text-violet-600 font-medium mb-0.5">Time</p>
+                                    <p className="text-slate-900 font-semibold text-sm sm:text-base truncate">
                                         {config.event.time}
                                     </p>
                                 </div>
@@ -270,7 +242,7 @@ export default function Home() {
                         </div>
                     </div>
 
-                    <p className="text-gray-300 leading-relaxed">
+                    <p className="text-slate-600 leading-relaxed">
                         {config.event.description}
                     </p>
                 </div>
@@ -278,48 +250,48 @@ export default function Home() {
                 {/* Countdown Timer */}
                 {timeRemaining.days > 0 || timeRemaining.hours > 0 || timeRemaining.minutes > 0 || timeRemaining.seconds > 0 ? (
                     <div className="flex justify-center mb-8 px-2">
-                        <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 backdrop-blur-sm border border-purple-500/30 rounded-2xl p-4 sm:p-6 hover:border-purple-500/50 transition-all w-full max-w-2xl">
+                        <div className="bg-white border border-slate-200 shadow-md rounded-2xl p-4 sm:p-6 w-full max-w-2xl">
                             <div className="text-center mb-3">
-                                <p className="text-xs sm:text-sm text-purple-300 font-medium tracking-wide">Event starts in</p>
+                                <p className="text-xs sm:text-sm text-slate-600 font-medium tracking-wide">Event starts in</p>
                             </div>
                             <div className="flex gap-2 sm:gap-4 items-center justify-center flex-wrap">
                                 {timeRemaining.days > 0 && (
                                     <>
                                         <div className="text-center">
-                                            <div className="bg-white/5 backdrop-blur-md rounded-lg sm:rounded-xl px-2 sm:px-4 py-2 sm:py-3 min-w-[50px] sm:min-w-[70px] border border-purple-500/20">
-                                                <div className="text-xl sm:text-3xl font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
+                                            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg sm:rounded-xl px-2 sm:px-4 py-2 sm:py-3 min-w-[50px] sm:min-w-[70px] border border-blue-200">
+                                                <div className="text-xl sm:text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
                                                     {timeRemaining.days}
                                                 </div>
-                                                <div className="text-[10px] sm:text-xs text-gray-400 mt-0.5 sm:mt-1">days</div>
+                                                <div className="text-[10px] sm:text-xs text-slate-600 mt-0.5 sm:mt-1">days</div>
                                             </div>
                                         </div>
-                                        <div className="text-lg sm:text-2xl text-purple-400 font-bold">:</div>
+                                        <div className="text-lg sm:text-2xl text-slate-400 font-bold">:</div>
                                     </>
                                 )}
                                 <div className="text-center">
-                                    <div className="bg-white/5 backdrop-blur-md rounded-lg sm:rounded-xl px-2 sm:px-4 py-2 sm:py-3 min-w-[50px] sm:min-w-[70px] border border-purple-500/20">
-                                        <div className="text-xl sm:text-3xl font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
+                                    <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg sm:rounded-xl px-2 sm:px-4 py-2 sm:py-3 min-w-[50px] sm:min-w-[70px] border border-blue-200">
+                                        <div className="text-xl sm:text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
                                             {timeRemaining.hours.toString().padStart(2, '0')}
                                         </div>
-                                        <div className="text-[10px] sm:text-xs text-gray-400 mt-0.5 sm:mt-1">hours</div>
+                                        <div className="text-[10px] sm:text-xs text-slate-600 mt-0.5 sm:mt-1">hours</div>
                                     </div>
                                 </div>
-                                <div className="text-lg sm:text-2xl text-purple-400 font-bold">:</div>
+                                <div className="text-lg sm:text-2xl text-slate-400 font-bold">:</div>
                                 <div className="text-center">
-                                    <div className="bg-white/5 backdrop-blur-md rounded-lg sm:rounded-xl px-2 sm:px-4 py-2 sm:py-3 min-w-[50px] sm:min-w-[70px] border border-purple-500/20">
-                                        <div className="text-xl sm:text-3xl font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
+                                    <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg sm:rounded-xl px-2 sm:px-4 py-2 sm:py-3 min-w-[50px] sm:min-w-[70px] border border-blue-200">
+                                        <div className="text-xl sm:text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
                                             {timeRemaining.minutes.toString().padStart(2, '0')}
                                         </div>
-                                        <div className="text-[10px] sm:text-xs text-gray-400 mt-0.5 sm:mt-1">mins</div>
+                                        <div className="text-[10px] sm:text-xs text-slate-600 mt-0.5 sm:mt-1">mins</div>
                                     </div>
                                 </div>
-                                <div className="text-lg sm:text-2xl text-purple-400 font-bold">:</div>
+                                <div className="text-lg sm:text-2xl text-slate-400 font-bold">:</div>
                                 <div className="text-center">
-                                    <div className="bg-white/5 backdrop-blur-md rounded-lg sm:rounded-xl px-2 sm:px-4 py-2 sm:py-3 min-w-[50px] sm:min-w-[70px] border border-purple-500/20">
-                                        <div className="text-xl sm:text-3xl font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent animate-pulse">
+                                    <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg sm:rounded-xl px-2 sm:px-4 py-2 sm:py-3 min-w-[50px] sm:min-w-[70px] border border-blue-200">
+                                        <div className="text-xl sm:text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent animate-pulse">
                                             {timeRemaining.seconds.toString().padStart(2, '0')}
                                         </div>
-                                        <div className="text-[10px] sm:text-xs text-gray-400 mt-0.5 sm:mt-1">secs</div>
+                                        <div className="text-[10px] sm:text-xs text-slate-600 mt-0.5 sm:mt-1">secs</div>
                                     </div>
                                 </div>
                             </div>
@@ -329,27 +301,27 @@ export default function Home() {
 
                 {/* Ticket Section */}
                 <div className="mb-8">
-                    <h3 className="text-2xl font-bold text-white mb-6 text-center">
+                    <h3 className="text-2xl font-bold text-slate-900 mb-6 text-center">
                         Choose Your Experience
                     </h3>
 
                     <div className="grid md:grid-cols-2 gap-6">
                         {/* Access Ticket */}
-                        <div className="bg-white/5 backdrop-blur-md rounded-2xl border border-purple-500/20 p-6 hover:border-purple-500/40 transition-all">
+                        <div className="bg-white border border-slate-200 shadow-md rounded-2xl p-6 hover:border-slate-300 transition-all hover:shadow-lg">
                             <div className="flex justify-between items-start mb-6">
                                 <div>
-                                    <h4 className="text-xl font-bold text-white mb-1">
+                                    <h4 className="text-xl font-bold text-slate-900 mb-1">
                                         Basic
                                     </h4>
-                                    <p className="text-sm text-gray-400">
+                                    <p className="text-sm text-slate-600">
                                         Join the live stream
                                     </p>
                                 </div>
                                 <div className="text-right">
-                                    <div className="text-3xl font-bold text-white">
+                                    <div className="text-3xl font-bold text-slate-900">
                                         ${getTicketPrice("access")}
                                     </div>
-                                    <div className="text-xs text-gray-400">
+                                    <div className="text-xs text-slate-500">
                                         {config.tickets.access.currency}
                                     </div>
                                 </div>
@@ -358,7 +330,7 @@ export default function Home() {
                             <ul className="space-y-3 mb-6">
                                 <li className="flex items-start gap-3">
                                     <svg
-                                        className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0"
+                                        className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0"
                                         fill="none"
                                         stroke="currentColor"
                                         viewBox="0 0 24 24"
@@ -370,13 +342,13 @@ export default function Home() {
                                             d="M5 13l4 4L19 7"
                                         />
                                     </svg>
-                                    <span className="text-gray-300 text-sm">
+                                    <span className="text-slate-700 text-sm">
                                         Live stream access
                                     </span>
                                 </li>
                                 <li className="flex items-start gap-3">
                                     <svg
-                                        className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0"
+                                        className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0"
                                         fill="none"
                                         stroke="currentColor"
                                         viewBox="0 0 24 24"
@@ -388,13 +360,13 @@ export default function Home() {
                                             d="M5 13l4 4L19 7"
                                         />
                                     </svg>
-                                    <span className="text-gray-300 text-sm">
+                                    <span className="text-slate-700 text-sm">
                                         Participate in chat
                                     </span>
                                 </li>
                                 <li className="flex items-start gap-3">
                                     <svg
-                                        className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0"
+                                        className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0"
                                         fill="none"
                                         stroke="currentColor"
                                         viewBox="0 0 24 24"
@@ -406,7 +378,7 @@ export default function Home() {
                                             d="M5 13l4 4L19 7"
                                         />
                                     </svg>
-                                    <span className="text-gray-300 text-sm">
+                                    <span className="text-slate-700 text-sm">
                                         HD quality streaming
                                     </span>
                                 </li>
@@ -415,34 +387,34 @@ export default function Home() {
 
                             <button
                                 onClick={() => handleBuyTicket("access")}
-                                className="w-full py-3 px-6 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl transition-colors"
+                                className="w-full py-3 px-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors shadow-sm"
                             >
                                 Buy Basic Ticket
                             </button>
                         </div>
 
                         {/* Premium Ticket */}
-                        <div className="relative bg-gradient-to-br from-purple-900/40 to-pink-900/40 backdrop-blur-md rounded-2xl border-2 border-purple-500 p-6 hover:border-purple-400 transition-all">
+                        <div className="relative bg-gradient-to-br from-violet-50 to-purple-50 border-2 border-violet-300 shadow-lg rounded-2xl p-6 hover:border-violet-400 transition-all hover:shadow-xl">
                             <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                                <div className="bg-gradient-to-r from-pink-500 to-purple-500 text-white text-xs font-bold px-4 py-1 rounded-full">
+                                <div className="bg-gradient-to-r from-violet-600 to-purple-600 text-white text-xs font-bold px-4 py-1 rounded-full shadow-md">
                                     MOST POPULAR
                                 </div>
                             </div>
 
                             <div className="flex justify-between items-start mb-6">
                                 <div>
-                                    <h4 className="text-xl font-bold text-white mb-1">
+                                    <h4 className="text-xl font-bold text-slate-900 mb-1">
                                         Premium
                                     </h4>
-                                    <p className="text-sm text-purple-300">
+                                    <p className="text-sm text-violet-700">
                                         Make your voice stand out
                                     </p>
                                 </div>
                                 <div className="text-right">
-                                    <div className="text-3xl font-bold text-white">
+                                    <div className="text-3xl font-bold text-slate-900">
                                         ${getTicketPrice("premium")}
                                     </div>
-                                    <div className="text-xs text-gray-400">
+                                    <div className="text-xs text-slate-600">
                                         {config.tickets.premium.currency}
                                     </div>
                                 </div>
@@ -451,7 +423,7 @@ export default function Home() {
                             <ul className="space-y-3 mb-6">
                                 <li className="flex items-start gap-3">
                                     <svg
-                                        className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0"
+                                        className="w-5 h-5 text-violet-600 mt-0.5 flex-shrink-0"
                                         fill="none"
                                         stroke="currentColor"
                                         viewBox="0 0 24 24"
@@ -463,13 +435,13 @@ export default function Home() {
                                             d="M5 13l4 4L19 7"
                                         />
                                     </svg>
-                                    <span className="text-gray-300 text-sm">
+                                    <span className="text-slate-700 text-sm">
                                         Everything in Basic
                                     </span>
                                 </li>
                                 <li className="flex items-start gap-3">
                                     <svg
-                                        className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0"
+                                        className="w-5 h-5 text-violet-600 mt-0.5 flex-shrink-0"
                                         fill="none"
                                         stroke="currentColor"
                                         viewBox="0 0 24 24"
@@ -481,7 +453,7 @@ export default function Home() {
                                             d="M5 13l4 4L19 7"
                                         />
                                     </svg>
-                                    <span className="text-white text-sm font-semibold">
+                                    <span className="text-slate-900 text-sm font-semibold">
                                         Highlighted chat messages
                                     </span>
                                 </li>
@@ -489,7 +461,7 @@ export default function Home() {
 
                             <button
                                 onClick={() => handleBuyTicket("premium")}
-                                className="w-full py-3 px-6 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold rounded-xl transition-all shadow-lg shadow-purple-500/50"
+                                className="w-full py-3 px-6 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white font-semibold rounded-xl transition-all shadow-md hover:shadow-lg"
                             >
                                 Buy Premium Ticket
                             </button>
@@ -502,10 +474,10 @@ export default function Home() {
                     href="https://vybesapp.live"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/30 rounded-xl p-4 backdrop-blur-sm hover:border-purple-500/50 transition-all group"
+                    className="block bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-4 hover:border-blue-300 transition-all group shadow-sm hover:shadow-md"
                 >
                     <div className="flex items-center gap-3">
-                        <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 32 32"
@@ -542,16 +514,16 @@ export default function Home() {
                         </div>
                         <div className="flex-1">
                             <div className="flex items-center gap-2 mb-1">
-                                <h4 className="text-purple-300 font-semibold group-hover:text-purple-200 transition-colors">
+                                <h4 className="text-blue-700 font-semibold group-hover:text-blue-800 transition-colors">
                                     Create your own ticketed live stream
                                 </h4>
                             </div>
-                            <p className="text-xs text-gray-400 group-hover:text-gray-300 transition-colors">
+                            <p className="text-xs text-slate-600 group-hover:text-slate-700 transition-colors">
                                 Build your audience and monetize with vybes
                             </p>
                         </div>
                         <svg
-                            className="w-5 h-5 text-purple-400 group-hover:translate-x-1 transition-transform"
+                            className="w-5 h-5 text-blue-500 group-hover:translate-x-1 transition-transform"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -563,8 +535,8 @@ export default function Home() {
             </main>
 
             {/* Footer */}
-            <footer className="border-t border-purple-500/20 bg-black/30 backdrop-blur-md py-6 mt-12">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-400 text-sm">
+            <footer className="border-t border-slate-200 bg-white/80 backdrop-blur-md py-6 mt-12">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-slate-600 text-sm">
                     <p>&copy; 2026 Vybes Media Ltd. All rights reserved.</p>
                 </div>
             </footer>
